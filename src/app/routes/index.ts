@@ -6,6 +6,7 @@ import { EducationRoutes } from "../modules/education/education.routes";
 import { ProjectRoutes } from "../modules/project/project.routes";
 import { BlogRoutes } from "../modules/blog/blog.routes";
 import { MessageRoutes } from "../modules/message/message.routes";
+import { ResumeRoutes } from "../modules/resume/resume.routes";
 
 const router = Router();
 
@@ -37,6 +38,10 @@ const moduleRoutes: { path: string; route: Router }[] = [
   {
     path: "/message",
     route: MessageRoutes,
+  },
+  {
+    path: "/resume",
+    route: ResumeRoutes,
   },
 ];
 
