@@ -4,8 +4,8 @@ import config from "../../config";
 import { User } from "@prisma/client";
 import { generateToken } from "../../utils/auth.utils";
 import AppError from "../../error/AppError";
-import slugGenerator from "../../utils/slugGenerator";
 import status from "http-status";
+import usernameGenerator from "../../utils/usernameGenerator";
 
 // User Save to DB
 const userSaveToDB = async (data: User) => {
@@ -37,7 +37,7 @@ const userSaveToDB = async (data: User) => {
     ...data,
     password: hashPassword,
     image: imageUrl,
-    username: slugGenerator(data?.name),
+    username: usernameGenerator(data?.name),
   };
 
   // Create User
