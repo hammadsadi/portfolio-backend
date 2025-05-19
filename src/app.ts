@@ -24,7 +24,7 @@ app.use("/api", router);
 app.get("/", (req: Request, res: Response) => {
   res.send({
     status: true,
-    message: "Shohan portfolio server is running..!",
+    message: "Sadi portfolio server is running..!",
   });
 });
 

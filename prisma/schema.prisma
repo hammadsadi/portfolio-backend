@@ -12,6 +12,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Profile {
@@ -23,6 +24,8 @@ model User{
   id String @id @default(uuid())
   email String @unique
   name String
+  password String
+  username String @unique
   bio String?
   summery String
   image String?
@@ -78,6 +81,7 @@ model Education{
 model Project{
   id String @id @default(uuid())
   title String
+  slug String
   description String
   image String[]
   clientRepository String
@@ -94,6 +98,7 @@ model Project{
 model Blog{
   id String @id @default(uuid())
   title String
+   slug String
   authorId String
   user User @relation(fields: [authorId], references: [id], onDelete: Cascade)
   description String
