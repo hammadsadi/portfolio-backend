@@ -1,0 +1,150 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id     Int     @id @default(autoincrement())
+  bio    String?
+}
+
+model User{
+  id String @id @default(uuid())
+  email String @unique
+  name String
+  bio String?
+  summery String
+  image String?
+  phoneNumber String
+  status              UserStatus    @default(ACTIVE)
+  role UserRole @default(USER)
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt 
+  blog Blog[]
+  comment Comment[] 
+  like Like[]
+
+}
+
+model Skill{
+  id String @id @default(uuid())
+  name String
+  image String
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt 
+
+}
+
+model Resume {
+  id        String   @id @default(uuid())
+  title     String
+  pdfUrl    String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  isActive  Boolean   @default(false) 
+
+  @@map("resumes")
+}
+
+model Experience{
+  id String @id @default(uuid())
+  title String
+  description String
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt 
+
+}
+
+model Education{
+  id String @id @default(uuid())
+  title String
+  description String
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt 
+
+}
+
+model Project{
+  id String @id @default(uuid())
+  title String
+  description String
+  image String[]
+  clientRepository String
+  serverRepository String
+  liveLink String
+  technologies    String[]
+  features    String[]
+  installation String?
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt 
+
+}
+
+model Blog{
+  id String @id @default(uuid())
+  title String
+  authorId String
+  user User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  description String
+  image String
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt 
+  comment Comment[] 
+  like Like[]
+
+}
+
+model Comment{
+  id String @id @default(uuid())
+  description String
+  authorId String
+  user User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  blogId String
+  blog Blog @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  image String
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt 
+
+}
+model Like {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blogId String
+  blog  Blog @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, blogId]) 
+}
+
+
+model Message{
+  id String @id @default(uuid())
+  email String
+  description String
+  subject String
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt 
+
+}
+
+// Enums Here
+enum UserStatus{
+  ACTIVE
+  BLOCKED
+}
+enum UserRole{
+  ADMIN
+  USER
+}
