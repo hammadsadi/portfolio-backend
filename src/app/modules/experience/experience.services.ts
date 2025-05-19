@@ -1,4 +1,4 @@
-import { Experience, Skill } from "@prisma/client";
+import { Experience } from "@prisma/client";
 import prisma from "../../shared/prisma";
 
 // Experience  Save To DB
