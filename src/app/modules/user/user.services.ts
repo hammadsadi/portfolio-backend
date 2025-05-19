@@ -114,8 +114,20 @@ const getAllUsers = async () => {
   return result;
 };
 
+// Update User Information
+const updateUser = async (id: string, payload: Partial<User>) => {
+  const result = await prisma.user.update({
+    where: {
+      id,
+    },
+    data: payload,
+  });
+  return result;
+};
+
 export const UserServices = {
   userSaveToDB,
   getAllUsers,
   loginUser,
+  updateUser,
 };

@@ -2,6 +2,8 @@ import status from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { UserServices } from "./user.services";
+import { Request, Response } from "express";
+import { ILoggedInUser } from "../../interfaces";
 
 /**
  *@Method POST
@@ -47,6 +49,26 @@ const loginUser = catchAsync(async (req, res) => {
 });
 
 /**
+ *@Method PATCH
+ * @Description Update User
+ * @Return Data
+ */
+
+const userDataUpdate = catchAsync(
+  async (req: Request & { user?: ILoggedInUser }, res: Response) => {
+    const { id } = req.user as ILoggedInUser;
+    const result = await UserServices.updateUser(id, req.body);
+
+    sendResponse(res, {
+      statusCode: status.OK,
+      success: true,
+      message: "User Updated Successful",
+      data: result,
+    });
+  }
+);
+
+/**
  *@Method GET
  * @Description GET All User
  * @Return Data
@@ -66,4 +88,5 @@ export const UserControllers = {
   createUser,
   getAllUsers,
   loginUser,
+  userDataUpdate,
 };
