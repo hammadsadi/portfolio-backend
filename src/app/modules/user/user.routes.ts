@@ -13,5 +13,10 @@ router.patch(
   UserControllers.userDataUpdate
 );
 router.get("/", UserControllers.getAllUsers);
+router.get(
+  "/me",
+  auth(UserRole.ADMIN, UserRole.USER),
+  UserControllers.getMeController
+);
 
 export const UserRoutes = router;

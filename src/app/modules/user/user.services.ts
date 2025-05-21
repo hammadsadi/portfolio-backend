@@ -38,6 +38,7 @@ const userSaveToDB = async (data: User) => {
     password: hashPassword,
     image: imageUrl,
     username: usernameGenerator(data?.name),
+    summery: "N/A",
   };
 
   // Create User
@@ -125,9 +126,33 @@ const updateUser = async (id: string, payload: Partial<User>) => {
   return result;
 };
 
+const getMeFromDb = async (email: string) => {
+  const result = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      image: true,
+      email: true,
+      role: true,
+      status: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+  if (!result) {
+    throw new AppError(status.NOT_FOUND, "user not found");
+  }
+  return result;
+};
+
 export const UserServices = {
   userSaveToDB,
   getAllUsers,
   loginUser,
   updateUser,
+  getMeFromDb
 };

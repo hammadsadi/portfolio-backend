@@ -84,9 +84,32 @@ const getAllUsers = catchAsync(async (req, res) => {
   });
 });
 
+/**
+ *@Method GET
+ * @Description GET LoggedIn User
+ * @Return Data
+ */
+
+const getMeController = catchAsync(
+  async (req: Request & { user?: ILoggedInUser }, res: Response) => {
+    if (!req.user) {
+      throw new Error("User is required");
+    }
+    const { email } = req.user;
+    const result = await UserServices.getMeFromDb(email);
+    sendResponse(res, {
+      statusCode: status.OK,
+      success: true,
+      message: "User fetched successfully",
+      data: result,
+    });
+  }
+);
+
 export const UserControllers = {
   createUser,
   getAllUsers,
   loginUser,
   userDataUpdate,
+  getMeController,
 };

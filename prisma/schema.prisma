@@ -27,7 +27,7 @@ model User{
   password String
   username String @unique
   bio String?
-  summery String
+  summery String?
   image String?
   phoneNumber String
   status              UserStatus    @default(ACTIVE)
